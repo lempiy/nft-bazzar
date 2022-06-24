@@ -13,7 +13,7 @@ import { useSnackbar } from 'notistack';
 import React, { FC, ReactNode, useCallback, useMemo } from 'react';
 import { Theme } from './Theme';
 import { HFTBazzarRoutes } from './Routes';
-import { Link, BrowserRouter as Router } from 'react-router-dom';
+import { Link, HashRouter as Router } from 'react-router-dom';
 import { Button, ButtonGroup } from '@mui/material';
 
 export const App: FC = () => {
@@ -60,7 +60,7 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
         <ConnectionProvider endpoint={endpoint}>
             <WalletProvider wallets={wallets} onError={onError} autoConnect>
                 <WalletDialogProvider>
-                    <Router>
+                    <Router basename={window.location.pathname[window.location.pathname.length-1] == '/' ? window.location.pathname.slice(0, window.location.pathname.length-1) : window.location.pathname}>
                         <div className='navbar'>
                         <ButtonGroup variant="text" aria-label="text button group">
                             <Link to="/" className="clear-link">

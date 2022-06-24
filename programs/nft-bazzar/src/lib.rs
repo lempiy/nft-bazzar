@@ -5,7 +5,7 @@ use anchor_spl::token::{MintTo, Token, Transfer};
 use mpl_token_metadata::instruction::{create_master_edition_v3, create_metadata_accounts_v2};
 
 
-declare_id!("BLNPwkxb3AEif8YMobZShMHxCLbbM5G92pJ8UbmQSkqs");
+declare_id!("7GCSd3CwKCkdwRds5eHNDe6zasKSk8P4i5Svo61obhix");
 
 #[program]
 pub mod nft_bazzar {

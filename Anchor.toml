@@ -1,7 +1,7 @@
 [features]
 seeds = false
 [programs.testnet]
-nft_bazzar = "BLNPwkxb3AEif8YMobZShMHxCLbbM5G92pJ8UbmQSkqs"
+nft_bazzar = "7GCSd3CwKCkdwRds5eHNDe6zasKSk8P4i5Svo61obhix"
 
 [registry]
 url = "https://anchor.projectserum.com"

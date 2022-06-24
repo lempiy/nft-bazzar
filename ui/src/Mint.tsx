@@ -134,6 +134,7 @@ export const Mint: FC = () => {
 
     async function mint(title: string, symbol: string, metaURL: string, meta: NFTMeta): Promise<INFT> {
         const mintKey: web3.Keypair = web3.Keypair.generate();
+        console.log(idl);
         const program = new Program(IDL, idl.metadata.address, provider!) as Program<NftBazzar>;
         const lamports: number =
         await program.provider.connection.getMinimumBalanceForRentExemption(
