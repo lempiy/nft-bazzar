@@ -5,8 +5,8 @@ import { SystemProgram, TransactionError, LAMPORTS_PER_SOL } from "@solana/web3.
 import { useSnackbar } from "notistack";
 import React, { FC, FormEvent, ChangeEvent, useState, useCallback } from "react"
 import { app, client, getNFTMetaData, INFT, NFTMeta, toFile, TOKEN_METADATA_PROGRAM_ID } from "./constants";
-import { NftBazzar, IDL } from './target/nft_bazzar';
-import idl from './target/nft_bazzar.json';
+import { NftBazzar, IDL } from '../../target/types/nft_bazzar';
+import idl from '../../target/idl/nft_bazzar.json';
 import { AnchorProvider, Program, web3 } from "@project-serum/anchor";
 import { createAssociatedTokenAccountInstruction, createInitializeMintInstruction, getAssociatedTokenAddress, MINT_SIZE, TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import { addDoc, collection, getFirestore } from "firebase/firestore";

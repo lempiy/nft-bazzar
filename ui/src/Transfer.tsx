@@ -9,8 +9,8 @@ import { PublicKey } from "@solana/web3.js";
 import { createAssociatedTokenAccountInstruction, getAssociatedTokenAddress, TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { AnchorProvider, Program, web3 } from "@project-serum/anchor";
-import { NftBazzar, IDL } from './target/nft_bazzar';
-import idl from './target/nft_bazzar.json';
+import { NftBazzar, IDL } from '../../target/types/nft_bazzar';
+import idl from '../../target/idl/nft_bazzar.json';
 
 interface ITransferProps {
     nft: INFT,
