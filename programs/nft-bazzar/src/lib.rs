@@ -15,7 +15,6 @@ declare_id!("7GCSd3CwKCkdwRds5eHNDe6zasKSk8P4i5Svo61obhix");
 #[program]
 pub mod nft_bazzar {
     use super::*;
-    use crate::constants::ARBITER_WALLET_KEY;
 
     pub fn mint_nft(
         ctx: Context<MintNFT>,
