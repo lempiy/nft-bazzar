@@ -11,6 +11,15 @@ export interface IStore {
     loading: boolean
 }
 
+export enum MatchStates {
+   New = 'new',
+   AccountReady = 'account-ready',
+   PlayersJoined = 'players-joined',
+   Started = 'started',
+   Finished = 'finished',
+   LootResolved = 'loot-resolve'
+}
+
 export interface INFT {
     account_id: string
     owner: string
@@ -19,6 +28,19 @@ export interface INFT {
     mint_tx_id: string
     meta: NFTMeta
     meta_url: string
+}
+
+export interface IMatch {
+   date: Date,
+   account_key?: string
+   state: MatchStates
+   agreement_id?: string
+   game_id?: string
+   arbiter_key?: string
+   creator_key: string
+   player_one?: IPlayerBet
+   player_two?: IPlayerBet
+   winner_key?:string
 }
 
 export interface IUser {
@@ -106,6 +128,9 @@ const firebaseConfig = {
   measurementId: "G-S8D2F1RLB9"
 };
 
+export const assignPlayersURL = 'https://us-central1-nft-bazzar.cloudfunctions.net/assignPlayers';
+export const executeAgreement = 'https://us-central1-nft-bazzar.cloudfunctions.net/executeAgreement';
+
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
@@ -150,3 +175,20 @@ export interface NFTMeta {
    properties: Properties;
    image: string;
 }
+
+export interface IPlayerBet {
+   player_authority: string;
+   player_ata: string;
+   player_mint_key: string;
+   arbiter_ata: string;
+}
+
+
+export interface IAssignPayload {
+   is_player_one: boolean;
+   from_ata_key: string;
+   match_id: string;
+   mint_key: string;
+   owner_key: string;
+ }
+ 
