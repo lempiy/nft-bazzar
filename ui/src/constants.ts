@@ -2,13 +2,39 @@ import { createContext } from "react";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { create } from "ipfs-http-client";
+import { Web3Storage } from 'web3.storage';
 import { web3 } from "@project-serum/anchor";
 
 export interface IStore {
-    user: IUser
-    nfts: INFT[]
-    loading: boolean
+   data: IStoreData
+   setData: (newValue: IStoreData) => void
+}
+
+const dialogInitialData: IDialogData = {
+   open: false
+}
+export interface IDialogState {
+   data: IDialogData,
+   setData: (newValue: IDialogData) => void
+}
+
+export interface IDialogData {
+   open: boolean
+   data?: IDialogPayload
+}
+
+export interface IDialogPayload {
+   title: string,
+   link: string,
+   description: string,
+   buttonText: string,
+   onClosed: () => void
+}
+
+export interface IStoreData {
+   user: IUser
+   nfts: INFT[]
+   loading: boolean
 }
 
 export enum MatchStates {
@@ -47,7 +73,7 @@ export interface IUser {
     id: string,
 }
 
-const initialState = {
+const initialState: IStoreData = {
     user: {
         id: ""
     },
@@ -101,7 +127,8 @@ export const getNFTMetaData = (title: string, desc: string, url: string, author:
     "image": url
  })
 
-export const context = createContext<IStore>(initialState);
+export const context = createContext<IStore>({data: initialState, setData: () => {}});
+export const dialogContext = createContext<IDialogState>({data: dialogInitialData, setData: () => {}});
 
 export const toFile = (name: string, source: Object): File => {
     const json = JSON.stringify(source);
@@ -112,7 +139,9 @@ export const toFile = (name: string, source: Object): File => {
     })
 }
 
-export const client = create({url: 'https://ipfs.infura.io:5001/api/v0'})
+export const web3StorageToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDRjRGE5QzU0NEU0YTAzNEZiZUM3NjUzYjY0OEI0QkNlQjY2NENmZDUiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NjA2NTA5ODY3MDcsIm5hbWUiOiJuZnQtYmF6emFyIn0.LUiqXA3jiuVhvfgsfIFZ6SJNpveHu1qRRfbJpC8-uqg'
+
+export const client = new Web3Storage({ token: web3StorageToken, endpoint: new URL('https://api.web3.storage')})
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 

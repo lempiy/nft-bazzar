@@ -3,7 +3,7 @@ import { FC } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { Home } from "./Home";
 
-import { app, context, IStore, IUser } from "./constants";
+import { app, context, IStore, IStoreData, IUser } from "./constants";
 import { Mint } from "./Mint";
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
 import {
@@ -17,9 +17,10 @@ import {
 import { NFT } from "./Nft";
 import { Matches } from "./Matches";
 import { Match } from "./Match";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 
 const DataProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [data, setData] = useState<IStore>({
+  const [data, setData] = useState<IStoreData>({
     user: { id: "" },
     nfts: [],
     loading: false,
@@ -67,9 +68,10 @@ const DataProvider: FC<{ children: ReactNode }> = ({ children }) => {
   useEffect(() => {
     ensureUserData();
   });
-
   const { Provider } = context;
-  return <Provider value={data}>{children}</Provider>;
+  return <Provider value={{data, setData}}>
+    {children}
+  </Provider>;
 };
 
 export const HFTBazzarRoutes: FC = () => {

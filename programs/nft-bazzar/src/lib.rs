@@ -10,7 +10,7 @@ use mpl_token_metadata::instruction::{create_master_edition_v3, create_metadata_
 use std::convert::Into;
 use std::ops::Deref;
 
-declare_id!("7GCSd3CwKCkdwRds5eHNDe6zasKSk8P4i5Svo61obhix");
+declare_id!("DgEPk8UKFtZJkccQagn2NUkmKQXUDZERPiMijmFaMrdQ");
 
 #[program]
 pub mod nft_bazzar {

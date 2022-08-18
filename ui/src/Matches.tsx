@@ -46,7 +46,7 @@ export const Matches: FC<IMatchesProps> = ({}) => {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
-  const data = useContext(context);
+  const {data} = useContext(context);
   if (!data.user.id) {
     return (
       <Typography sx={{ textAlign: "center" }} variant="h5">

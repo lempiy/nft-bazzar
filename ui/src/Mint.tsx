@@ -13,10 +13,13 @@ import React, {
   ChangeEvent,
   useState,
   useCallback,
+  useContext,
 } from "react";
 import {
   app,
   client,
+  context,
+  dialogContext,
   getNFTMetaData,
   INFT,
   NFTMeta,
@@ -54,6 +57,7 @@ export const Mint: FC = () => {
   const { connection } = useConnection();
   const wallet = useAnchorWallet();
   const navigate = useNavigate();
+  const {data, setData} = useContext(dialogContext);
 
   const provider = wallet
     ? new AnchorProvider(connection, wallet, {
@@ -88,9 +92,9 @@ export const Mint: FC = () => {
     }));
   };
   const uploadIpfs = async (file: File): Promise<string> => {
-    const added = await client.add(file);
-    console.log(`https://ipfs.infura.io/ipfs/${added.path}`);
-    return `https://ipfs.infura.io/ipfs/${added.path}`;
+    const added = await client.put([file]);
+    console.log(`https://w3s.link/ipfs/${added}/${encodeURIComponent(file.name)}`);
+    return `https://w3s.link/ipfs/${added}/${encodeURIComponent(file.name)}`;
   };
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -110,6 +114,7 @@ export const Mint: FC = () => {
       );
       const f = toFile("meta.json", meta);
       const metaUrl = await uploadIpfs(f);
+      console.log(idl.metadata.address);
       const nft = await mint(values.title, meta.symbol, metaUrl, meta);
       await saveNFTDB(nft);
       navigate("/" + nft.mint_key);
@@ -246,6 +251,7 @@ export const Mint: FC = () => {
     console.log(
       await program.provider.connection.getParsedAccountInfo(mintKey.publicKey)
     );
+    
 
     console.log("Account: ", res);
     console.log("Mint key: ", mintKey.publicKey.toString());

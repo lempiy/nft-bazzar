@@ -21,7 +21,7 @@ export const Home: FC<IHomeProps> = ({}) => {
   const [value, loading, error] = useCollectionOnce(
     collection(getFirestore(app), "nfts")
   );
-  const data = useContext(context);
+  const {data, setData} = useContext(context);
   if (!data.user.id) {
     return (
       <Typography sx={{ textAlign: "center" }} variant="h5">

@@ -13,9 +13,10 @@ import { IMatch, MatchStates } from "./match/states";
 import express from "express";
 import cors from "cors";
 import { assign } from "./match/assign";
-import { SOLANA_URL } from "./contants";
+import { PHANTOM_SUCCESS_REPLY, PHANTOM_TEMPLATE_REPLY, SOLANA_URL } from "./contants";
 import { execute } from "./match/execute";
 import { resolveGame } from "./match/resolve";
+import { createPhantomEvent, onEventResult } from "./phantom_events/event";
 
 const assignApp = express();
 assignApp.use(cors({ origin: true }));
@@ -23,15 +24,40 @@ assignApp.use(cors({ origin: true }));
 const executeApp = express();
 executeApp.use(cors({ origin: true }));
 
+const createPhantomEventApp = express();
+createPhantomEventApp.use(cors({ origin: true }));
+
+const resultPhantomEventApp = express();
+createPhantomEventApp.use(cors({ origin: true }));
+
+
 assignApp.post("/", async (req, res) => {
   res.send(await assign(req.body));
 });
 executeApp.post("/", async (req, res) => {
   res.send(await execute(req.body));
 });
+createPhantomEventApp.post("/", async (req, res) => {
+  res.send(await createPhantomEvent(req.body));
+})
+resultPhantomEventApp.get("/:id", async (req, res) => {
+  res.setHeader("Content-Type", "text/html");
+  try {
+    await onEventResult(req.params.id, {
+      phantom_encryption_public_key: req.query.phantom_encryption_public_key as string,
+      nonce: req.query.nonce as string, 
+      data: req.query.data as string
+    })
+    res.send(PHANTOM_SUCCESS_REPLY);
+  } catch (e) {
+    res.send(PHANTOM_TEMPLATE_REPLY.replace('{{ANSWER}}', `${e}`));
+  }
+})
 
 export const assignPlayers = functions.https.onRequest(assignApp);
 export const executeAgreement = functions.https.onRequest(executeApp);
+export const createPhantom = functions.https.onRequest(createPhantomEventApp);
+export const resultPhantom = functions.https.onRequest(resultPhantomEventApp);
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
